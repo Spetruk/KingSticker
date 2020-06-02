@@ -8,14 +8,29 @@
 
 import UIKit
 
-protocol AnimatedDataSource {
+public protocol AnimatedDataSource {
     var frameCount: Int { get }
     var frameRate: Int { get }
+    var isReady: Bool { get }
     
-    func takeFrame() -> AnimatedFrame
+    func takeFrame() -> AnimatedFrame?
+    func ready(size: CGSize, completion: @escaping (Bool) -> Void)
 }
 
-class AnimatedView: UIImageView {
+public struct AnimationViewOptions: OptionSet {
+    public let rawValue: Int
+    
+    public init(rawValue: Int) {
+        self.rawValue = rawValue
+    }
+    
+    /// Only show first frame
+    static let firstFrame = AnimationViewOptions(rawValue: 1 << 0)
+}
+
+private let queue = DispatchQueue(label: "AnimatedView")
+
+public class AnimatedView: UIImageView {
     private lazy var timer: CADisplayLink = {
         let displayLink = CADisplayLink(target: self, selector: #selector(onTimer))
         displayLink.preferredFramesPerSecond = 60
@@ -28,6 +43,11 @@ class AnimatedView: UIImageView {
     private var dataSource: AnimatedDataSource?
     private var timeSinceLastFrameChange: TimeInterval = 0.0
     private var currentFrame: AnimatedFrame?
+    private var showFirstFrame: Bool = false // only show first frame
+    
+    deinit {
+        print("deinit AnimatedView")
+    }
     
     private func reset() {
         self.currentFrame = nil
@@ -35,27 +55,58 @@ class AnimatedView: UIImageView {
         self.timer.isPaused = true
     }
     
-    @objc func onTimer() {
+    @objc private func onTimer() {
         if shouldChangedFrame() {
             render()
         }
     }
     
-    func render() {
+    private func render() {
         guard let dataSource = self.dataSource else { return }
-        self.currentFrame = dataSource.takeFrame()
-        self.image = currentFrame!.image
+        
+        queue.async { [weak self] in
+            if dataSource.isReady, let strongSelf = self, let frame = strongSelf.dataSource?.takeFrame() {
+                strongSelf.currentFrame = frame
+                DispatchQueue.main.async {
+                    strongSelf.layer.contents = frame.image.cgImage
+                }
+            }
+        }
     }
     
-    public func setImage(dataSource: AnimatedDataSource) {
-        reset()
+    /// Set datasource
+    public func setImage(dataSource: AnimatedDataSource, size: CGSize = CGSize(width: 60, height: 60), options: [AnimationViewOptions] = []) {
+        self.reset()
         self.dataSource = dataSource
-        timer.isPaused = false
+        self.showFirstFrame = options.contains(.firstFrame)
+        
+        dataSource.ready(size: size) { [weak self] success in
+            guard let strongSelf = self else { return }
+            if success {
+                if strongSelf.showFirstFrame {
+                    strongSelf.render()
+                } else {
+                    strongSelf.timer.isPaused = false
+                }
+            }
+        }
+    }
+    
+    /// Pause animation
+    public func pause() {
+        guard !showFirstFrame else { return }
+        self.timer.isPaused = true
+    }
+    
+    /// Resume animation
+    public func resume() {
+        guard !showFirstFrame else { return }
+        self.timer.isPaused = false
     }
 }
 
 extension AnimatedView {
-    func shouldChangedFrame() -> Bool {
+    private func shouldChangedFrame() -> Bool {
         if let frame = self.currentFrame {
             if timeSinceLastFrameChange + timer.duration >= frame.duration {
                 timeSinceLastFrameChange = 0.0
@@ -67,33 +118,5 @@ extension AnimatedView {
         } else {
             return true
         }
-    }
-}
-
-class GifDataSource: AnimatedDataSource {
-    private var frames: [AnimatedFrame] = []
-    private var currentIndex = 0
-    private var preferredSize: CGSize
-    
-    init(url: URL, firstFrame: Bool, preferredSize: CGSize) {
-        self.preferredSize = preferredSize
-        let data = try! Data(contentsOf: url)
-        if let frames = GifDecoder.decode(from: data, firstFrame: firstFrame, preferredSize: preferredSize) {
-            frameCount = frames.count
-            self.frames = frames
-        }
-    }
-    
-    var frameCount: Int = 0
-    
-    var frameRate: Int = 60
-    
-    func takeFrame() -> AnimatedFrame {
-        guard frameCount > 0 && currentIndex < self.frameCount else { fatalError() }
-        defer {
-            currentIndex = (currentIndex + 1) % self.frameCount
-        }
-        
-        return frames[currentIndex]
     }
 }

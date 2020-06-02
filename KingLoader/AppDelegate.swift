@@ -44,3 +44,64 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+protocol DataStore {
+    associatedtype StoredType
+    
+    func store(_ object: StoredType, forKey: String)
+    func fetchObject(forKey key: String) -> StoredType?
+}
+
+class AnyDataStore<StoredType>: DataStore {
+    private let storeObject: (StoredType, String) -> Void
+    private let fetchObject: (String) -> StoredType?
+    
+    init<Store: DataStore>(wrappedStore: Store) where Store.StoredType == StoredType {
+        self.storeObject = wrappedStore.store
+        self.fetchObject = wrappedStore.fetchObject
+    }
+    
+    func store(_ object: StoredType, forKey key: String) {
+        self.storeObject(object, key)
+    }
+    
+    func fetchObject(forKey key: String) -> StoredType? {
+        return self.fetchObject(key)
+    }
+}
+
+class InMemoryImageStore: DataStore {
+    
+    var images = [String : UIImage]()
+    
+    func store(_ object: InMemoryImageStore.StoredType, forKey key: String) {
+        images[key] = object
+    }
+    
+    func fetchObject(forKey key: String) -> UIImage? {
+        return images[key]
+    }
+}
+
+struct FileManagerImageStore: DataStore {
+    typealias StoredType = UIImage
+    
+    func store(_ object: UIImage, forKey key: String) {
+        //
+    }
+    
+    func fetchObject(forKey key: String) -> UIImage? {
+        return nil
+    }
+}
+
+class StorageManager {
+    func preferredImageStore() -> AnyDataStore<UIImage> {
+        if Bool.random() {
+            let fileManagerStore = FileManagerImageStore()
+            return AnyDataStore(wrappedStore: fileManagerStore)
+        } else {
+            let memoryStore = InMemoryImageStore()
+            return AnyDataStore(wrappedStore: memoryStore)
+        }
+    }
+}
