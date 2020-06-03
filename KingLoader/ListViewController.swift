@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import KingSticker
 
 class ListViewController: UIViewController {
     lazy var collectionView: UICollectionView = {

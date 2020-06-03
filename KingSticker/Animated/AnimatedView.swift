@@ -41,7 +41,7 @@ public class AnimatedView: UIImageView {
         self.setupDisplayLink()
     }
     
-    init() {
+    public init() {
         super.init(frame: .zero)
         self.setupDisplayLink()
     }

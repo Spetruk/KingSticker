@@ -11,13 +11,13 @@ import Compression
 
 private let queue = DispatchQueue(label: "datasource")
 
-final class TGSCachedFrameSource: AnimatedDataSource {
-    var frameRate: Int = 0
-    var frameCount: Int = 0
+public final class TGSCachedFrameSource: AnimatedDataSource {
+    public var frameRate: Int = 0
+    public var frameCount: Int = 0
     var width: Int = 0
     var bytesPerRow: Int = 0
-    var height: Int = 0
-    var isReady: Bool
+    public var height: Int = 0
+    public var isReady: Bool
     
     var url: URL
     
@@ -38,12 +38,12 @@ final class TGSCachedFrameSource: AnimatedDataSource {
         return 1.0 / Double(frameRate)
     }
     
-    init(url: URL) {
+    public init(url: URL) {
         self.url = url
         self.isReady = false
     }
     
-    func ready(size: CGSize, completion: @escaping (Bool) -> Void) {
+    public func ready(size: CGSize, completion: @escaping (Bool) -> Void) {
         self.expectedSize = size
         let manager = ResourceManager.shared
         if manager.hasDownloaded(for: url) {
@@ -137,7 +137,7 @@ final class TGSCachedFrameSource: AnimatedDataSource {
         }
     }
     
-    func takeFrame() -> AnimatedFrame? {
+    public func takeFrame() -> AnimatedFrame? {
         assertMainThread()
         guard isReady else { return nil }
         

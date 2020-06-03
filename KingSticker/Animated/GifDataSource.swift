@@ -8,7 +8,7 @@
 
 import Foundation
 
-class GifDataSource: AnimatedDataSource {
+public class GifDataSource: AnimatedDataSource {
     private var frames: [AnimatedFrame] = []
     private var currentIndex = 0
     private var preferredSize: CGSize = .zero
@@ -16,16 +16,16 @@ class GifDataSource: AnimatedDataSource {
     private var showFirstFrame: Bool = false
     
 
-    init(url: URL, firstFrame: Bool = false) {
+    public init(url: URL, firstFrame: Bool = false) {
         self.url = url
         self.showFirstFrame = firstFrame
     }
     
-    var frameCount: Int = 0
-    var frameRate: Int = 60
-    var isReady: Bool = true
+    public var frameCount: Int = 0
+    public var frameRate: Int = 60
+    public var isReady: Bool = true
     
-    func takeFrame() -> AnimatedFrame? {
+    public func takeFrame() -> AnimatedFrame? {
         guard isReady else { fatalError("not ready") }
         guard frameCount > 0 && currentIndex < self.frameCount else { fatalError() }
         defer {
@@ -35,7 +35,7 @@ class GifDataSource: AnimatedDataSource {
         return frames[currentIndex]
     }
     
-    func ready(size: CGSize, completion: @escaping (Bool) -> Void) {
+    public func ready(size: CGSize, completion: @escaping (Bool) -> Void) {
         self.isReady = false
         let manager = ResourceManager.shared
         if manager.hasDownloaded(for: url) {
