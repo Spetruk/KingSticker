@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3110BC3624879E5D00049379 /* AnimatedStickerFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3110BC3524879E5D00049379 /* AnimatedStickerFrame.swift */; };
 		31174C80248247ED002B1F9E /* LottieInstance.h in Headers */ = {isa = PBXBuildFile; fileRef = 31FB1AA12482349E005B2D17 /* LottieInstance.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		31174C8124824835002B1F9E /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 31FB1CED24823665005B2D17 /* libc++.tbd */; };
 		31174C8324824872002B1F9E /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31174C8224824872002B1F9E /* CoreServices.framework */; };
@@ -137,7 +138,6 @@
 		31FB1CE9248234E4005B2D17 /* vcowptr.h in Headers */ = {isa = PBXBuildFile; fileRef = 31FB1BD3248234E3005B2D17 /* vcowptr.h */; };
 		31FB1CEA248234E4005B2D17 /* vbrush.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 31FB1BD4248234E4005B2D17 /* vbrush.cpp */; };
 		31FB1CF924823AA5005B2D17 /* ImageUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31FB1CF424823AA5005B2D17 /* ImageUtil.swift */; };
-		31FB1CFA24823AA5005B2D17 /* AnimationStickerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31FB1CF524823AA5005B2D17 /* AnimationStickerNode.swift */; };
 		31FB1D0424824465005B2D17 /* RLottieBinding.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31FB1A932482346F005B2D17 /* RLottieBinding.framework */; };
 		31FB1D0524824465005B2D17 /* RLottieBinding.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 31FB1A932482346F005B2D17 /* RLottieBinding.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -157,6 +157,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3110BC3524879E5D00049379 /* AnimatedStickerFrame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedStickerFrame.swift; sourceTree = "<group>"; };
 		31174C8224824872002B1F9E /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		31174C8424824950002B1F9E /* ManagedFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedFile.swift; sourceTree = "<group>"; };
 		31174C8524824950002B1F9E /* StickerUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickerUtil.swift; sourceTree = "<group>"; };
@@ -294,7 +295,6 @@
 		31FB1BD4248234E4005B2D17 /* vbrush.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vbrush.cpp; sourceTree = "<group>"; };
 		31FB1CED24823665005B2D17 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		31FB1CF424823AA5005B2D17 /* ImageUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageUtil.swift; sourceTree = "<group>"; };
-		31FB1CF524823AA5005B2D17 /* AnimationStickerNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationStickerNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -376,7 +376,7 @@
 				31FB1A89248233CC005B2D17 /* YUV.m */,
 				31FB1A8C248233F4005B2D17 /* GZip.h */,
 				31FB1A8B248233F4005B2D17 /* GZip.m */,
-				31FB1CF524823AA5005B2D17 /* AnimationStickerNode.swift */,
+				3110BC3524879E5D00049379 /* AnimatedStickerFrame.swift */,
 				31FB1CF424823AA5005B2D17 /* ImageUtil.swift */,
 				31174C8424824950002B1F9E /* ManagedFile.swift */,
 				31174C8524824950002B1F9E /* StickerUtil.swift */,
@@ -795,8 +795,8 @@
 				31FB1A8D248233F4005B2D17 /* GZip.m in Sources */,
 				31FB1CF924823AA5005B2D17 /* ImageUtil.swift in Sources */,
 				31FB1A68248204E5005B2D17 /* AppDelegate.swift in Sources */,
-				31FB1CFA24823AA5005B2D17 /* AnimationStickerNode.swift in Sources */,
 				31174C8624824950002B1F9E /* ManagedFile.swift in Sources */,
+				3110BC3624879E5D00049379 /* AnimatedStickerFrame.swift in Sources */,
 				31174C8B24825127002B1F9E /* TGSCachedDataSource.swift in Sources */,
 				31FB1A8124820EB6005B2D17 /* ListViewController.swift in Sources */,
 				31C81F4E248259EC003C9E33 /* ResourceManager.swift in Sources */,

@@ -14,9 +14,8 @@ class GifDataSource: AnimatedDataSource {
     private var preferredSize: CGSize = .zero
     private let url: URL
     private var showFirstFrame: Bool = false
-    var isReady: Bool = true
-
     
+
     init(url: URL, firstFrame: Bool = false) {
         self.url = url
         self.showFirstFrame = firstFrame
@@ -24,6 +23,7 @@ class GifDataSource: AnimatedDataSource {
     
     var frameCount: Int = 0
     var frameRate: Int = 60
+    var isReady: Bool = true
     
     func takeFrame() -> AnimatedFrame? {
         guard isReady else { fatalError("not ready") }

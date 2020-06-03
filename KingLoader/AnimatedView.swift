@@ -28,8 +28,6 @@ public struct AnimationViewOptions: OptionSet {
     static let firstFrame = AnimationViewOptions(rawValue: 1 << 0)
 }
 
-private let queue = DispatchQueue(label: "AnimatedView")
-
 public class AnimatedView: UIImageView {
     private lazy var timer: CADisplayLink = {
         let displayLink = CADisplayLink(target: self, selector: #selector(onTimer))
@@ -57,20 +55,19 @@ public class AnimatedView: UIImageView {
     
     @objc private func onTimer() {
         if shouldChangedFrame() {
-            render()
+            DispatchQueue.main.async { [weak self] in
+                self?.render()
+            }
         }
     }
     
     private func render() {
+        assertMainThread()
         guard let dataSource = self.dataSource else { return }
         
-        queue.async { [weak self] in
-            if dataSource.isReady, let strongSelf = self, let frame = strongSelf.dataSource?.takeFrame() {
-                strongSelf.currentFrame = frame
-                DispatchQueue.main.async {
-                    strongSelf.layer.contents = frame.image.cgImage
-                }
-            }
+        if dataSource.isReady, let frame = dataSource.takeFrame() {
+            self.currentFrame = frame
+            self.image = frame.image
         }
     }
     

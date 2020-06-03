@@ -12,7 +12,11 @@ import Compression
 class ResourceManager {
     static let shared = ResourceManager()
     
-    private let cacheQueue = DispatchQueue(label: "generate_tgs_cache")
+    private lazy var session: URLSession = {
+        let configuration = URLSessionConfiguration.ephemeral
+        let session = URLSession(configuration: configuration)
+        return session
+    }()
     
     private init() {
         try? FileManager.default.createDirectory(at: tgsThumbDirectory, withIntermediateDirectories: true, attributes: nil)
@@ -68,33 +72,75 @@ class ResourceManager {
     }
     
     public func generateThumb(for data: Data, size: CGSize, path: String, completion: @escaping () -> Void) {
-        cacheQueue.async {
+        DispatchQueue.global().async {
             generateStickerCache(data: data, size: size, filePath: path)
             completion()
         }
     }
     
     public func loadFile(url: URL, completion: @escaping (Data?) -> Void) {
-//        assertNotMainThread()
-        
-        if hasDownloaded(for: url) {
-            let data = try! Data(contentsOf: cachePath(for: url))
-            completion(data)
-            return
+        func task() {
+            if hasDownloaded(for: url) {
+                let data = try! Data(contentsOf: cachePath(for: url))
+                completion(data)
+                return
+            }
+            
+            let savePath = cachePath(for: url)
+            DownloadManager.shared.download(url: url, to: savePath, completion: completion)
         }
         
-        let savePath = cachePath(for: url)
-        // httpMaximumConnectionsPerHost, default value: 6
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            if let response = response as? HTTPURLResponse, response.statusCode == 200, let data = data {
-                print("download ok")
-                try! data.write(to: savePath)
-                completion(data)
-            } else {
-                completion(nil)
+        DispatchQueue.global().async {
+            task()
+        }
+    }
+}
+
+class DownloadManager {
+    static let shared = DownloadManager()
+    
+    private let maxConcurrentTasks = 4
+    private let queue = DispatchQueue(label: "download", qos: .userInitiated, attributes: .concurrent)
+    private let group = DispatchGroup()
+    private let semaphore: DispatchSemaphore
+    
+    private lazy var session: URLSession = {
+        let configuration = URLSessionConfiguration.ephemeral
+        let session = URLSession(configuration: configuration)
+        return session
+    }()
+    
+    private init() {
+        semaphore = DispatchSemaphore(value: maxConcurrentTasks)
+    }
+    
+    func download(url: URL, to position: URL, completion: @escaping (Data?) -> Void) {
+        func createTask() -> URLSessionDataTask {
+            print("schedule a task")
+            let task = self.session.dataTask(with: url) { (data, response, error) in
+                if let response = response as? HTTPURLResponse, response.statusCode == 200, let data = data, data.count > 0 {
+                    print("success a download task")
+                    try! data.write(to: position)
+                    completion(data)
+                } else {
+                    print("fail a download task")
+                    completion(nil)
+                }
+                
+                self.semaphore.signal()
+                self.group.leave()
+            }
+            return task
+        }
+        
+        queue.async(group: group) { [weak self] in
+            if let strongSelf = self {
+                strongSelf.group.enter()
+                strongSelf.semaphore.wait()
+                
+                let task = createTask()
+                task.resume()
             }
         }
-
-        task.resume()
     }
 }

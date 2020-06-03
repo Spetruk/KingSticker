@@ -138,8 +138,7 @@ final class TGSCachedFrameSource: AnimatedDataSource {
     }
     
     func takeFrame() -> AnimatedFrame? {
-        assertNotMainThread()
-        
+        assertMainThread()
         guard isReady else { return nil }
         
         var frameData: Data?
