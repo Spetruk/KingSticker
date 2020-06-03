@@ -29,15 +29,6 @@ public struct AnimationViewOptions: OptionSet {
 }
 
 public class AnimatedView: UIImageView {
-//    private lazy var timer: CADisplayLink = {
-//        let displayLink = CADisplayLink(target: self, selector: #selector(onTimer))
-//        displayLink.preferredFramesPerSecond = 60
-//        displayLink.isPaused = true
-//        displayLink.add(to: .main, forMode: .common)
-//
-//        return displayLink
-//    }()
-    
     private weak var timer: CADisplayLinkProxy?
     
     private var dataSource: AnimatedDataSource?
@@ -68,7 +59,6 @@ public class AnimatedView: UIImageView {
         self.timer = CADisplayLinkProxy(handle: { [weak self] in
             self?.onTimer()
         })
-
     }
     
     private func reset() {
