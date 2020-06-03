@@ -29,28 +29,52 @@ public struct AnimationViewOptions: OptionSet {
 }
 
 public class AnimatedView: UIImageView {
-    private lazy var timer: CADisplayLink = {
-        let displayLink = CADisplayLink(target: self, selector: #selector(onTimer))
-        displayLink.preferredFramesPerSecond = 60
-        displayLink.isPaused = true
-        displayLink.add(to: .main, forMode: .common)
-
-        return displayLink
-    }()
+//    private lazy var timer: CADisplayLink = {
+//        let displayLink = CADisplayLink(target: self, selector: #selector(onTimer))
+//        displayLink.preferredFramesPerSecond = 60
+//        displayLink.isPaused = true
+//        displayLink.add(to: .main, forMode: .common)
+//
+//        return displayLink
+//    }()
+    
+    private weak var timer: CADisplayLinkProxy?
     
     private var dataSource: AnimatedDataSource?
     private var timeSinceLastFrameChange: TimeInterval = 0.0
     private var currentFrame: AnimatedFrame?
     private var showFirstFrame: Bool = false // only show first frame
     
+    public override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.setupDisplayLink()
+    }
+    
+    init() {
+        super.init(frame: .zero)
+        self.setupDisplayLink()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     deinit {
         print("deinit AnimatedView")
+        timer?.invalidate()
+    }
+    
+    private func setupDisplayLink() {
+        self.timer = CADisplayLinkProxy(handle: { [weak self] in
+            self?.onTimer()
+        })
+
     }
     
     private func reset() {
         self.currentFrame = nil
         self.timeSinceLastFrameChange = 0.0
-        self.timer.isPaused = true
+        self.timer?.isPaused = true
     }
     
     @objc private func onTimer() {
@@ -83,7 +107,7 @@ public class AnimatedView: UIImageView {
                 if strongSelf.showFirstFrame {
                     strongSelf.render()
                 } else {
-                    strongSelf.timer.isPaused = false
+                    strongSelf.timer?.isPaused = false
                 }
             }
         }
@@ -92,19 +116,19 @@ public class AnimatedView: UIImageView {
     /// Pause animation
     public func pause() {
         guard !showFirstFrame else { return }
-        self.timer.isPaused = true
+        self.timer?.isPaused = true
     }
     
     /// Resume animation
     public func resume() {
         guard !showFirstFrame else { return }
-        self.timer.isPaused = false
+        self.timer?.isPaused = false
     }
 }
 
 extension AnimatedView {
     private func shouldChangedFrame() -> Bool {
-        if let frame = self.currentFrame {
+        if let frame = self.currentFrame, let timer = self.timer {
             if timeSinceLastFrameChange + timer.duration >= frame.duration {
                 timeSinceLastFrameChange = 0.0
                 return true

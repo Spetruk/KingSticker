@@ -28,19 +28,13 @@ class ListViewController: UIViewController {
         
         view.backgroundColor = .white
         view.addSubview(collectionView)
-//        collectionView.frame = self.view.bounds
-        collectionView.frame = CGRect(origin: .zero, size: CGSize(width: view.bounds.width, height: view.bounds.height / 4))
+        collectionView.frame = CGRect(origin: .zero, size: CGSize(width: view.bounds.width, height: view.bounds.height / 1))
         collectionView.backgroundColor = .white
-        
-//        ResourceManager.shared.clearCache()
-        
+        // ResourceManager.shared.clearCache()
         loadData()
     }
     
     func loadData() {
-//        guard let urls = Bundle.main.urls(forResourcesWithExtension: "tgs", subdirectory: "stickers") else { return }
-//        self.stickers = urls.suffix(60)
-//        collectionView.reloadData()
         let arr = [
             "https://secretapp.azureedge.net/emojitgs/secret1/01.gif",
             "https://secretapp.azureedge.net/emojitgs/secret1/02.gif",
@@ -187,7 +181,7 @@ class CustomCell: UICollectionViewCell {
             let dataSource = TGSCachedFrameSource(url: url)
             imageView.setImage(dataSource: dataSource, options: [])
         } else if url.path.hasSuffix("gif") {
-            let dataSource = GifDataSource(url: url)
+            let dataSource = GifDataSource(url: url, firstFrame: false)
             imageView.setImage(dataSource: dataSource, options: [])
         }
 

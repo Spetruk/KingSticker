@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3110BC3624879E5D00049379 /* AnimatedStickerFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3110BC3524879E5D00049379 /* AnimatedStickerFrame.swift */; };
+		3110BC382487A5B200049379 /* CADisplayLinkProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3110BC372487A5B200049379 /* CADisplayLinkProxy.swift */; };
 		31174C80248247ED002B1F9E /* LottieInstance.h in Headers */ = {isa = PBXBuildFile; fileRef = 31FB1AA12482349E005B2D17 /* LottieInstance.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		31174C8124824835002B1F9E /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 31FB1CED24823665005B2D17 /* libc++.tbd */; };
 		31174C8324824872002B1F9E /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31174C8224824872002B1F9E /* CoreServices.framework */; };
@@ -158,6 +159,7 @@
 
 /* Begin PBXFileReference section */
 		3110BC3524879E5D00049379 /* AnimatedStickerFrame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedStickerFrame.swift; sourceTree = "<group>"; };
+		3110BC372487A5B200049379 /* CADisplayLinkProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADisplayLinkProxy.swift; sourceTree = "<group>"; };
 		31174C8224824872002B1F9E /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		31174C8424824950002B1F9E /* ManagedFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedFile.swift; sourceTree = "<group>"; };
 		31174C8524824950002B1F9E /* StickerUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickerUtil.swift; sourceTree = "<group>"; };
@@ -318,6 +320,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3110BC392487AA9500049379 /* Animated */ = {
+			isa = PBXGroup;
+			children = (
+				31FB1A8624823396005B2D17 /* tgs */,
+				31FB1A7E24820B53005B2D17 /* GifDecoder.swift */,
+				31FB1A79248204FC005B2D17 /* AnimatedView.swift */,
+				31174C8A24825127002B1F9E /* TGSCachedDataSource.swift */,
+				319C4E2D24860C18000C8BD1 /* GifDataSource.swift */,
+				31C81F4D248259EC003C9E33 /* ResourceManager.swift */,
+				319C4E2B248601FC000C8BD1 /* Util.swift */,
+				3110BC372487A5B200049379 /* CADisplayLinkProxy.swift */,
+			);
+			path = Animated;
+			sourceTree = "<group>";
+		};
 		31FB1A5B248204E5005B2D17 = {
 			isa = PBXGroup;
 			children = (
@@ -342,16 +359,10 @@
 			children = (
 				31FB1A67248204E5005B2D17 /* AppDelegate.swift */,
 				31FB1A69248204E5005B2D17 /* ViewController.swift */,
-				31FB1A7E24820B53005B2D17 /* GifDecoder.swift */,
-				31FB1A79248204FC005B2D17 /* AnimatedView.swift */,
-				31174C8A24825127002B1F9E /* TGSCachedDataSource.swift */,
-				319C4E2D24860C18000C8BD1 /* GifDataSource.swift */,
-				31FB1A87248233CB005B2D17 /* KingLoader-Bridging-Header.h */,
 				31FB1A8024820EB6005B2D17 /* ListViewController.swift */,
-				31C81F4D248259EC003C9E33 /* ResourceManager.swift */,
-				319C4E2B248601FC000C8BD1 /* Util.swift */,
-				31FB1A8624823396005B2D17 /* tgs */,
+				3110BC392487AA9500049379 /* Animated */,
 				31FB1A6B248204E5005B2D17 /* Main.storyboard */,
+				31FB1A87248233CB005B2D17 /* KingLoader-Bridging-Header.h */,
 				31FB1A6E248204E7005B2D17 /* Assets.xcassets */,
 				31FB1A70248204E7005B2D17 /* LaunchScreen.storyboard */,
 				31FB1A73248204E7005B2D17 /* Info.plist */,
@@ -801,6 +812,7 @@
 				31FB1A8124820EB6005B2D17 /* ListViewController.swift in Sources */,
 				31C81F4E248259EC003C9E33 /* ResourceManager.swift in Sources */,
 				319C4E2C248601FC000C8BD1 /* Util.swift in Sources */,
+				3110BC382487A5B200049379 /* CADisplayLinkProxy.swift in Sources */,
 				31174C8724824950002B1F9E /* StickerUtil.swift in Sources */,
 				31FB1A7F24820B53005B2D17 /* GifDecoder.swift in Sources */,
 			);
