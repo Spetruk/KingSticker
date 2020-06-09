@@ -9,8 +9,8 @@
 import Foundation
 import Compression
 
-class ResourceManager {
-    static let shared = ResourceManager()
+public class ResourceManager {
+    public static let shared = ResourceManager()
     
     private lazy var session: URLSession = {
         let configuration = URLSessionConfiguration.ephemeral

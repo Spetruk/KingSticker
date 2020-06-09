@@ -27,11 +27,12 @@ class ListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.title = "Stickers"
         view.backgroundColor = .white
         view.addSubview(collectionView)
         collectionView.frame = CGRect(origin: .zero, size: CGSize(width: view.bounds.width, height: view.bounds.height / 1))
         collectionView.backgroundColor = .white
-        // ResourceManager.shared.clearCache()
+//        ResourceManager.shared.clearCache()
         loadData()
     }
     
@@ -104,6 +105,10 @@ extension ListViewController: UICollectionViewDataSource, UICollectionViewDelega
         cell.update(url: self.stickers[indexPath.row])
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("Select: \(indexPath.row)th")
+    }
 }
 
 class CustomCell: UICollectionViewCell {
@@ -127,7 +132,7 @@ class CustomCell: UICollectionViewCell {
 //        let data = try! Data(contentsOf: url)
         if url.path.hasSuffix("tgs") || url.path.hasSuffix("json") {
             let dataSource = TGSCachedFrameSource(url: url)
-            imageView.setImage(dataSource: dataSource, options: [])
+            imageView.setImage(dataSource: dataSource, options: [.firstFrame])
         } else if url.path.hasSuffix("gif") {
             let dataSource = GifDataSource(url: url, firstFrame: false)
             imageView.setImage(dataSource: dataSource, options: [])

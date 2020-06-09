@@ -32,6 +32,7 @@
 		31174C8124824835002B1F9E /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 31FB1CED24823665005B2D17 /* libc++.tbd */; };
 		31174C8324824872002B1F9E /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31174C8224824872002B1F9E /* CoreServices.framework */; };
 		31174C8924824C67002B1F9E /* stickers in Resources */ = {isa = PBXBuildFile; fileRef = 31174C8824824C67002B1F9E /* stickers */; };
+		313283B5248F41680096CDC6 /* FPSWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313283B4248F41680096CDC6 /* FPSWindow.swift */; };
 		31FB1A68248204E5005B2D17 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31FB1A67248204E5005B2D17 /* AppDelegate.swift */; };
 		31FB1A6A248204E5005B2D17 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31FB1A69248204E5005B2D17 /* ViewController.swift */; };
 		31FB1A6D248204E5005B2D17 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 31FB1A6B248204E5005B2D17 /* Main.storyboard */; };
@@ -179,12 +180,6 @@
 /* Begin PBXFileReference section */
 		3110BC3524879E5D00049379 /* AnimatedStickerFrame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedStickerFrame.swift; sourceTree = "<group>"; };
 		3110BC372487A5B200049379 /* CADisplayLinkProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADisplayLinkProxy.swift; sourceTree = "<group>"; };
-		3110BCDC2487B3DB00049379 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		3110BCDE2487B3DB00049379 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		3110BCE12487B3DB00049379 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		3110BCE32487B3DC00049379 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		3110BCE62487B3DC00049379 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		3110BCE82487B3DC00049379 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3110BCF12487B44900049379 /* KingSticker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KingSticker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3110BCF32487B44900049379 /* KingSticker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KingSticker.h; sourceTree = "<group>"; };
 		3110BCF42487B44900049379 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -193,10 +188,11 @@
 		31174C8524824950002B1F9E /* StickerUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickerUtil.swift; sourceTree = "<group>"; };
 		31174C8824824C67002B1F9E /* stickers */ = {isa = PBXFileReference; lastKnownFileType = folder; path = stickers; sourceTree = "<group>"; };
 		31174C8A24825127002B1F9E /* TGSCachedDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TGSCachedDataSource.swift; sourceTree = "<group>"; };
+		313283B4248F41680096CDC6 /* FPSWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPSWindow.swift; sourceTree = "<group>"; };
 		319C4E2B248601FC000C8BD1 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		319C4E2D24860C18000C8BD1 /* GifDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifDataSource.swift; sourceTree = "<group>"; };
 		31C81F4D248259EC003C9E33 /* ResourceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceManager.swift; sourceTree = "<group>"; };
-		31FB1A64248204E5005B2D17 /* KingLoader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KingLoader.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		31FB1A64248204E5005B2D17 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		31FB1A67248204E5005B2D17 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		31FB1A69248204E5005B2D17 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		31FB1A6C248204E5005B2D17 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -375,19 +371,6 @@
 			path = Animated;
 			sourceTree = "<group>";
 		};
-		3110BCDB2487B3DB00049379 /* Demo */ = {
-			isa = PBXGroup;
-			children = (
-				3110BCDC2487B3DB00049379 /* AppDelegate.swift */,
-				3110BCDE2487B3DB00049379 /* ViewController.swift */,
-				3110BCE02487B3DB00049379 /* Main.storyboard */,
-				3110BCE32487B3DC00049379 /* Assets.xcassets */,
-				3110BCE52487B3DC00049379 /* LaunchScreen.storyboard */,
-				3110BCE82487B3DC00049379 /* Info.plist */,
-			);
-			path = Demo;
-			sourceTree = "<group>";
-		};
 		3110BCF22487B44900049379 /* KingSticker */ = {
 			isa = PBXGroup;
 			children = (
@@ -403,7 +386,6 @@
 			children = (
 				31FB1A66248204E5005B2D17 /* KingLoader */,
 				31FB1A942482346F005B2D17 /* RLottieBinding */,
-				3110BCDB2487B3DB00049379 /* Demo */,
 				3110BCF22487B44900049379 /* KingSticker */,
 				31FB1A65248204E5005B2D17 /* Products */,
 				31FB1CEC24823664005B2D17 /* Frameworks */,
@@ -413,7 +395,7 @@
 		31FB1A65248204E5005B2D17 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				31FB1A64248204E5005B2D17 /* KingLoader.app */,
+				31FB1A64248204E5005B2D17 /* Demo.app */,
 				31FB1A932482346F005B2D17 /* RLottieBinding.framework */,
 				3110BCF12487B44900049379 /* KingSticker.framework */,
 			);
@@ -426,6 +408,7 @@
 				31FB1A67248204E5005B2D17 /* AppDelegate.swift */,
 				31FB1A69248204E5005B2D17 /* ViewController.swift */,
 				31FB1A8024820EB6005B2D17 /* ListViewController.swift */,
+				313283B4248F41680096CDC6 /* FPSWindow.swift */,
 				31FB1A6B248204E5005B2D17 /* Main.storyboard */,
 				31FB1A6E248204E7005B2D17 /* Assets.xcassets */,
 				31FB1A70248204E7005B2D17 /* LaunchScreen.storyboard */,
@@ -790,9 +773,9 @@
 			productReference = 3110BCF12487B44900049379 /* KingSticker.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		31FB1A63248204E5005B2D17 /* KingLoader */ = {
+		31FB1A63248204E5005B2D17 /* Demo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 31FB1A76248204E7005B2D17 /* Build configuration list for PBXNativeTarget "KingLoader" */;
+			buildConfigurationList = 31FB1A76248204E7005B2D17 /* Build configuration list for PBXNativeTarget "Demo" */;
 			buildPhases = (
 				31FB1A60248204E5005B2D17 /* Sources */,
 				31FB1A61248204E5005B2D17 /* Frameworks */,
@@ -804,9 +787,9 @@
 			dependencies = (
 				3110BCF72487B44900049379 /* PBXTargetDependency */,
 			);
-			name = KingLoader;
+			name = Demo;
 			productName = KingLoader;
-			productReference = 31FB1A64248204E5005B2D17 /* KingLoader.app */;
+			productReference = 31FB1A64248204E5005B2D17 /* Demo.app */;
 			productType = "com.apple.product-type.application";
 		};
 		31FB1A922482346F005B2D17 /* RLottieBinding */ = {
@@ -862,7 +845,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				31FB1A63248204E5005B2D17 /* KingLoader */,
+				31FB1A63248204E5005B2D17 /* Demo */,
 				31FB1A922482346F005B2D17 /* RLottieBinding */,
 				3110BCF02487B44900049379 /* KingSticker */,
 			);
@@ -926,6 +909,7 @@
 				31FB1A6A248204E5005B2D17 /* ViewController.swift in Sources */,
 				31FB1A68248204E5005B2D17 /* AppDelegate.swift in Sources */,
 				31FB1A8124820EB6005B2D17 /* ListViewController.swift in Sources */,
+				313283B5248F41680096CDC6 /* FPSWindow.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -980,22 +964,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		3110BCE02487B3DB00049379 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				3110BCE12487B3DB00049379 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		3110BCE52487B3DC00049379 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				3110BCE62487B3DC00049379 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
 		31FB1A6B248204E5005B2D17 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1335,7 +1303,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		31FB1A76248204E7005B2D17 /* Build configuration list for PBXNativeTarget "KingLoader" */ = {
+		31FB1A76248204E7005B2D17 /* Build configuration list for PBXNativeTarget "Demo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				31FB1A77248204E7005B2D17 /* Debug */,

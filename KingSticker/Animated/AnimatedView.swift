@@ -25,7 +25,7 @@ public struct AnimationViewOptions: OptionSet {
     }
     
     /// Only show first frame
-    static let firstFrame = AnimationViewOptions(rawValue: 1 << 0)
+    public static let firstFrame = AnimationViewOptions(rawValue: 1 << 0)
 }
 
 public class AnimatedView: UIImageView {
