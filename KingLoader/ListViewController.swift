@@ -30,9 +30,9 @@ class ListViewController: UIViewController {
         self.title = "Stickers"
         view.backgroundColor = .white
         view.addSubview(collectionView)
-        collectionView.frame = CGRect(origin: .zero, size: CGSize(width: view.bounds.width, height: view.bounds.height / 1))
+        collectionView.frame = CGRect(origin: .zero, size: CGSize(width: view.bounds.width, height: view.bounds.height / 2))
         collectionView.backgroundColor = .white
-//        ResourceManager.shared.clearCache()
+        ResourceManager.shared.clearCache()
         loadData()
     }
     

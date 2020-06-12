@@ -47,7 +47,9 @@ public final class TGSCachedFrameSource: AnimatedDataSource {
         self.expectedSize = size
         let manager = ResourceManager.shared
         if manager.hasDownloaded(for: url) {
-            cacheThumbIfNeed(size: size, completion: completion)
+            DispatchQueue.global().async { [weak self] in
+                self?.cacheThumbIfNeed(size: size, completion: completion)
+            }
         } else {
             manager.loadFile(url: url) { [weak self] data in
                 if let data = data {
@@ -217,6 +219,7 @@ public final class TGSCachedFrameSource: AnimatedDataSource {
     }
     
     func updateData(success: Bool, completion: @escaping (Bool) -> Void) {
+        assertNotMainThread()
         let cacheUrl = ResourceManager.shared.cacheThumbPath(for: self.url, size: self.expectedSize)
         if let data = try? Data(contentsOf: cacheUrl), data.count > 0 {
             queue.sync {

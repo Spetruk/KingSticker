@@ -62,6 +62,7 @@ public class AnimatedView: UIImageView {
     }
     
     private func reset() {
+        self.image = nil
         self.currentFrame = nil
         self.timeSinceLastFrameChange = 0.0
         self.timer?.isPaused = true
