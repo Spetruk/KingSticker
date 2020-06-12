@@ -80,6 +80,15 @@ public class ResourceManager {
         }
     }
     
+    public func cacheData(for url: URL) -> Data? {
+        if !hasDownloaded(for: url) {
+            return nil
+        }
+        
+        let file = cachePath(for: url)
+        return try? Data(contentsOf: file)
+    }
+    
     public func loadFile(url: URL, completion: @escaping (Data?) -> Void) {
         func task() {
             if hasDownloaded(for: url) {
@@ -98,11 +107,43 @@ public class ResourceManager {
     }
 }
 
+class DownloadTask {
+    typealias Callback = (Data?) -> Void
+    
+    private var key: String
+    private var _task: URLSessionDataTask
+    private var callbacks : [Callback]
+    
+    init(url: URL, task: URLSessionDataTask, completion: @escaping Callback) {
+        self.key = url.path
+        self._task = task
+        self.callbacks = [completion]
+    }
+    
+    func add(callback: @escaping Callback) {
+        callbacks.append(callback)
+    }
+    
+    func notify(data: Data?) {
+        for callback in callbacks {
+            callback(data)
+        }
+    }
+    
+    func resume() {
+        _task.resume()
+    }
+    
+    func cancel() {
+        _task.cancel()
+    }
+}
+
 class DownloadManager {
     static let shared = DownloadManager()
     
     private let maxConcurrentTasks = 6
-    private let queue = DispatchQueue(label: "download", qos: .userInitiated, attributes: .concurrent)
+    private let queue = DispatchQueue(label: "download", qos: .background)
     private let semaphore: DispatchSemaphore
     
     private lazy var session: URLSession = {
@@ -114,14 +155,17 @@ class DownloadManager {
         return session
     }()
     
+    private var taskDict: [URL : DownloadTask] = [:]
+    
     private init() {
         semaphore = DispatchSemaphore(value: maxConcurrentTasks)
     }
     
+    /// Download file
     func download(url: URL, to position: URL, completion: @escaping (Data?) -> Void) {
-        func createTask() -> URLSessionDataTask {
+        func createTask() -> DownloadTask {
             print("schedule a task")
-            let task = self.session.dataTask(with: url) { (data, response, error) in
+            let task = self.session.dataTask(with: url) { [weak self] (data, response, error) in
                 if let response = response as? HTTPURLResponse, response.statusCode == 200, let data = data, data.count > 0 {
                     print("success a download task")
                     try! data.write(to: position)
@@ -131,17 +175,49 @@ class DownloadManager {
                     completion(nil)
                 }
                 
-                self.semaphore.signal()
-   
+                self?.taskDict.removeValue(forKey: url)
+                self?.semaphore.signal()
             }
-            return task
+            
+            return DownloadTask(url: url, task: task, completion: completion)
         }
         
-        semaphore.wait()
+        func run() {
+            semaphore.wait()
+            
+            // Check again whether downloaded
+            if let data = ResourceManager.shared.cacheData(for: url) {
+                completion(data)
+                semaphore.signal()
+                return
+            }
+
+            if let task = taskDict[url] {
+                // Already exists
+                task.add(callback: completion)
+            } else {
+                let newTask = createTask()
+                taskDict[url] = newTask
+                newTask.resume()
+            }
+        }
 
         queue.async {
-            let task = createTask()
-            task.resume()
+            run()
         }
+    }
+    
+    /// Cancel all tasks
+    func cancelAllTasks() {
+        taskDict.forEach { (_, task) in
+            task.cancel()
+        }
+
+        taskDict.removeAll()
+    }
+    
+    /// Get the count of tasks in active
+    func taskCount() -> Int {
+        return taskDict.count
     }
 }
