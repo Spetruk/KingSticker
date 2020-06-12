@@ -61,6 +61,8 @@ public class GifDataSource: AnimatedDataSource {
     }
     
     private func updateData(success: Bool, completion: (Bool) -> Void) {
+        assertMainThread()
+        
         if success && parseFrames() {
             isReady = true
             completion(true)

@@ -76,3 +76,5 @@ DerivedData/
 
 # upload
 Public/Uploads
+KingLoader.xcodeproj/xcuserdata/purkylin.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
+*.xcbkptlist

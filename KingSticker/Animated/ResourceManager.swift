@@ -12,6 +12,8 @@ import Compression
 public class ResourceManager {
     public static let shared = ResourceManager()
     
+    private let queue = DispatchQueue(label: "task")
+    
     private lazy var session: URLSession = {
         let configuration = URLSessionConfiguration.ephemeral
         let session = URLSession(configuration: configuration)
@@ -72,7 +74,7 @@ public class ResourceManager {
     }
     
     public func generateThumb(for data: Data, size: CGSize, path: String, completion: @escaping () -> Void) {
-        DispatchQueue.global().async {
+        queue.async {
             generateStickerCache(data: data, size: size, filePath: path)
             completion()
         }
@@ -90,7 +92,7 @@ public class ResourceManager {
             DownloadManager.shared.download(url: url, to: savePath, completion: completion)
         }
         
-        DispatchQueue.global().async {
+        queue.async {
             task()
         }
     }
