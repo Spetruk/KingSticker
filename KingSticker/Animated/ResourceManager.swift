@@ -99,13 +99,15 @@ public class ResourceManager {
 class DownloadManager {
     static let shared = DownloadManager()
     
-    private let maxConcurrentTasks = 4
+    private let maxConcurrentTasks = 8
     private let queue = DispatchQueue(label: "download", qos: .userInitiated, attributes: .concurrent)
-    private let group = DispatchGroup()
     private let semaphore: DispatchSemaphore
     
     private lazy var session: URLSession = {
         let configuration = URLSessionConfiguration.ephemeral
+        configuration.httpMaximumConnectionsPerHost = 8
+        configuration.timeoutIntervalForRequest = 15
+        configuration.timeoutIntervalForResource = 15
         let session = URLSession(configuration: configuration)
         return session
     }()
@@ -128,16 +130,14 @@ class DownloadManager {
                 }
                 
                 self.semaphore.signal()
-                self.group.leave()
+   
             }
             return task
         }
         
-        queue.async(group: group) { [weak self] in
+        queue.async { [weak self] in
             if let strongSelf = self {
-                strongSelf.group.enter()
                 strongSelf.semaphore.wait()
-                
                 let task = createTask()
                 task.resume()
             }
