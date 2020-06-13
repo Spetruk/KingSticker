@@ -36,13 +36,17 @@ public class GifDataSource: AnimatedDataSource {
     }
     
     public func ready(size: CGSize, completion: @escaping (Bool) -> Void) {
+        assertMainThread()
+        
         self.isReady = false
         let manager = ResourceManager.shared
         if manager.hasDownloaded(for: url) {
             self.updateData(success: true, completion: completion)
         } else {
             manager.loadFile(url: url) { [weak self] data in
-                self?.updateData(success: true, completion: completion)
+                DispatchQueue.main.async {
+                    self?.updateData(success: true, completion: completion)
+                }
             }
         }
     }

@@ -1,5 +1,5 @@
 //
-//  TGSCachedDataSource.swift
+//  LottieDataSource.swift
 //  KingLoader
 //
 //  Created by Purkylin King on 2020/5/30.
@@ -11,7 +11,7 @@ import Compression
 
 private let queue = DispatchQueue(label: "datasource")
 
-public final class TGSCachedFrameSource: AnimatedDataSource {
+public final class LottieDataSource: AnimatedDataSource {
     public var frameRate: Int = 0
     public var frameCount: Int = 0
     var width: Int = 0
@@ -44,31 +44,38 @@ public final class TGSCachedFrameSource: AnimatedDataSource {
     }
     
     public func ready(size: CGSize, completion: @escaping (Bool) -> Void) {
+        assertMainThread()
+        
         self.expectedSize = size
+        self.isReady = false
         let manager = ResourceManager.shared
-        if manager.hasDownloaded(for: url) {
-            DispatchQueue.global().async { [weak self] in
+        
+        if ResourceManager.shared.hasDownloaded(for: url) {
+            queue.async { [weak self] in
                 self?.cacheThumbIfNeed(size: size, completion: completion)
             }
         } else {
             manager.loadFile(url: url) { [weak self] data in
-                if let data = data {
+                queue.async {
                     self?.cacheThumb(data: data, size: size, completion: completion)
-                } else {
-                    self?.updateData(success: false, completion: completion)
                 }
             }
         }
     }
     
-    private func cacheThumb(data: Data, size: CGSize, completion: @escaping (Bool) -> Void) {
+    private func cacheThumb(data: Data?, size: CGSize, completion: @escaping (Bool) -> Void) {
         let cacheUrl = ResourceManager.shared.cacheThumbPath(for: self.url, size: size)
-        ResourceManager.shared.generateThumb(for: data, size: size, path: cacheUrl.path) { [weak self] in
-            self?.updateData(success: true, completion: completion)
+        if let data = data {
+            ResourceManager.shared.generateThumb(for: data, size: size, path: cacheUrl.path) { [weak self] in
+                self?.updateData(success: true, completion: completion)
+            }
+        } else {
+            DispatchQueue.main.async {
+                completion(false)
+            }
         }
     }
 
-    
     private func cacheThumbIfNeed(size: CGSize, completion: @escaping (Bool) -> Void) {
         let cacheUrl = ResourceManager.shared.cacheThumbPath(for: url, size: size)
         if FileManager.default.fileExists(atPath: cacheUrl.path) {
@@ -222,14 +229,17 @@ public final class TGSCachedFrameSource: AnimatedDataSource {
         assertNotMainThread()
         let cacheUrl = ResourceManager.shared.cacheThumbPath(for: self.url, size: self.expectedSize)
         if let data = try? Data(contentsOf: cacheUrl), data.count > 0 {
-            queue.sync {
-                self.config(data: data)
+            self.config(data: data)
+            DispatchQueue.main.async {
+                self.isReady = true
+                completion(true)
             }
-            self.isReady = true
-            completion(true)
         } else {
-            self.isReady = false
-            completion(false)
+            DispatchQueue.main.async {
+                self.isReady = false
+                completion(false)
+            }
+
         }
     }
 }

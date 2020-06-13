@@ -51,7 +51,7 @@ public class AnimatedView: UIImageView {
     }
     
     deinit {
-        print("deinit AnimatedView")
+        slog("deinit AnimatedView")
         timer?.invalidate()
     }
     

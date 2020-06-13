@@ -129,14 +129,8 @@ class CustomCell: UICollectionViewCell {
     }
     
     func update(url: URL) {
-//        let data = try! Data(contentsOf: url)
-        if url.path.hasSuffix("tgs") || url.path.hasSuffix("json") {
-            let dataSource = TGSCachedFrameSource(url: url)
-            imageView.setImage(dataSource: dataSource, options: [])
-        } else if url.path.hasSuffix("gif") {
-            let dataSource = GifDataSource(url: url, firstFrame: true)
-            imageView.setImage(dataSource: dataSource, options: [])
-        }
-
+        let dataSource = AutoDataSource(url: url)
+        imageView.setImage(dataSource: dataSource)
     }
 }
+

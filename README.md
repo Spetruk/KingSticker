@@ -1,5 +1,5 @@
 # KingSticker
-Render tgs(zip)/lottie/gif file
+Render tgs(zip)/lottie/gif file for iOS
 
 ## Motivation
 When you want to show a screen of gif/tgs, will have poor performance using [Lottie](https://github.com/airbnb/lottie-ios). That repo has an [issue](https://github.com/SDWebImage/SDWebImageLottiePlugin/issues/1), so I extract some code from [Telegram](https://github.com/TelegramMessenger/Telegram-iOS).
@@ -10,23 +10,27 @@ When you want to show a screen of gif/tgs, will have poor performance using [Lot
 - [x] Smooth
 
 ## Known issues
-* High cpu about 150%
-* Memory cahce not full implemented
+* High cpu about 150% when load more sticker in one screen
+* Memory cache not full implemented
 * A little hot
 
 ## Usage
 
 ```Swift
+// Basic usage
 import KingSticker
+let imageView = AnimatedView()
+let dataSource = AutoDataSource(url: url)
+imageView.setImage(dataSource: dataSource)
 
-if url.path.hasSuffix("tgs") || url.path.hasSuffix("json") {
-    let dataSource = TGSCachedFrameSource(url: url)
-    imageView.setImage(dataSource: dataSource, options: [])
-} else if url.path.hasSuffix("gif") {
-    let dataSource = GifDataSource(url: url, firstFrame: false)
-    imageView.setImage(dataSource: dataSource, options: [])
-}
+// Advanced usage
+let dataSource = GifDataSource(url: url, firstFrame: true)
+imageView.setImage(dataSource: dataSource, options: [])
 ```
+
+## Install(Carthage)
+
+`github "purkylin/KingSticker"`
 
 ## Related projects
 1. [SDWebImageLottieCoder](https://github.com/SDWebImage/SDWebImageLottieCoder)

@@ -12,7 +12,7 @@
 		3110BCF92487B44900049379 /* KingSticker.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3110BCF12487B44900049379 /* KingSticker.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3110BCFD2487B53300049379 /* GifDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31FB1A7E24820B53005B2D17 /* GifDecoder.swift */; };
 		3110BCFE2487B53A00049379 /* AnimatedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31FB1A79248204FC005B2D17 /* AnimatedView.swift */; };
-		3110BCFF2487B53A00049379 /* TGSCachedDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31174C8A24825127002B1F9E /* TGSCachedDataSource.swift */; };
+		3110BCFF2487B53A00049379 /* LottieDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31174C8A24825127002B1F9E /* LottieDataSource.swift */; };
 		3110BD002487B53A00049379 /* GifDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319C4E2D24860C18000C8BD1 /* GifDataSource.swift */; };
 		3110BD012487B53A00049379 /* ResourceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C81F4D248259EC003C9E33 /* ResourceManager.swift */; };
 		3110BD022487B53A00049379 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319C4E2B248601FC000C8BD1 /* Util.swift */; };
@@ -32,7 +32,10 @@
 		31174C8124824835002B1F9E /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 31FB1CED24823665005B2D17 /* libc++.tbd */; };
 		31174C8324824872002B1F9E /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31174C8224824872002B1F9E /* CoreServices.framework */; };
 		31174C8924824C67002B1F9E /* stickers in Resources */ = {isa = PBXBuildFile; fileRef = 31174C8824824C67002B1F9E /* stickers */; };
+		311A82F22493A08C004D31D3 /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311A82F12493A08C004D31D3 /* DownloadManager.swift */; };
 		313283B5248F41680096CDC6 /* FPSWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313283B4248F41680096CDC6 /* FPSWindow.swift */; };
+		31E75FE12494BE1700401D8E /* StaticDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E75FE02494BE1700401D8E /* StaticDataSource.swift */; };
+		31E75FE32494BF3600401D8E /* AutoDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E75FE22494BF3600401D8E /* AutoDataSource.swift */; };
 		31FB1A68248204E5005B2D17 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31FB1A67248204E5005B2D17 /* AppDelegate.swift */; };
 		31FB1A6A248204E5005B2D17 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31FB1A69248204E5005B2D17 /* ViewController.swift */; };
 		31FB1A6D248204E5005B2D17 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 31FB1A6B248204E5005B2D17 /* Main.storyboard */; };
@@ -187,11 +190,14 @@
 		31174C8424824950002B1F9E /* ManagedFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedFile.swift; sourceTree = "<group>"; };
 		31174C8524824950002B1F9E /* StickerUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickerUtil.swift; sourceTree = "<group>"; };
 		31174C8824824C67002B1F9E /* stickers */ = {isa = PBXFileReference; lastKnownFileType = folder; path = stickers; sourceTree = "<group>"; };
-		31174C8A24825127002B1F9E /* TGSCachedDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TGSCachedDataSource.swift; sourceTree = "<group>"; };
+		31174C8A24825127002B1F9E /* LottieDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieDataSource.swift; sourceTree = "<group>"; };
+		311A82F12493A08C004D31D3 /* DownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
 		313283B4248F41680096CDC6 /* FPSWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPSWindow.swift; sourceTree = "<group>"; };
 		319C4E2B248601FC000C8BD1 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		319C4E2D24860C18000C8BD1 /* GifDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifDataSource.swift; sourceTree = "<group>"; };
 		31C81F4D248259EC003C9E33 /* ResourceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceManager.swift; sourceTree = "<group>"; };
+		31E75FE02494BE1700401D8E /* StaticDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticDataSource.swift; sourceTree = "<group>"; };
+		31E75FE22494BF3600401D8E /* AutoDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoDataSource.swift; sourceTree = "<group>"; };
 		31FB1A64248204E5005B2D17 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		31FB1A67248204E5005B2D17 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		31FB1A69248204E5005B2D17 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -362,9 +368,12 @@
 				31FB1A8624823396005B2D17 /* tgs */,
 				31FB1A7E24820B53005B2D17 /* GifDecoder.swift */,
 				31FB1A79248204FC005B2D17 /* AnimatedView.swift */,
-				31174C8A24825127002B1F9E /* TGSCachedDataSource.swift */,
+				31174C8A24825127002B1F9E /* LottieDataSource.swift */,
 				319C4E2D24860C18000C8BD1 /* GifDataSource.swift */,
+				31E75FE02494BE1700401D8E /* StaticDataSource.swift */,
+				31E75FE22494BF3600401D8E /* AutoDataSource.swift */,
 				31C81F4D248259EC003C9E33 /* ResourceManager.swift */,
+				311A82F12493A08C004D31D3 /* DownloadManager.swift */,
 				319C4E2B248601FC000C8BD1 /* Util.swift */,
 				3110BC372487A5B200049379 /* CADisplayLinkProxy.swift */,
 			);
@@ -886,10 +895,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3110BCFF2487B53A00049379 /* TGSCachedDataSource.swift in Sources */,
+				3110BCFF2487B53A00049379 /* LottieDataSource.swift in Sources */,
 				3110BD0B2487B54200049379 /* StickerUtil.swift in Sources */,
 				3110BD0A2487B54200049379 /* ManagedFile.swift in Sources */,
+				31E75FE32494BF3600401D8E /* AutoDataSource.swift in Sources */,
 				3110BD032487B53A00049379 /* CADisplayLinkProxy.swift in Sources */,
+				31E75FE12494BE1700401D8E /* StaticDataSource.swift in Sources */,
 				3110BD022487B53A00049379 /* Util.swift in Sources */,
 				3110BCFD2487B53300049379 /* GifDecoder.swift in Sources */,
 				3110BD052487B54200049379 /* YUV.m in Sources */,
@@ -899,6 +910,7 @@
 				3110BD072487B54200049379 /* GZip.m in Sources */,
 				3110BD082487B54200049379 /* AnimatedStickerFrame.swift in Sources */,
 				3110BD012487B53A00049379 /* ResourceManager.swift in Sources */,
+				311A82F22493A08C004D31D3 /* DownloadManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

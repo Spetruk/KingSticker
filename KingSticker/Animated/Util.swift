@@ -9,6 +9,13 @@
 import Foundation
 import CommonCrypto
 
+/// Simple log
+func slog(_ items: Any) {
+    if ProcessInfo.processInfo.arguments.contains("ENABLE_STICKER_LOG") {
+        print(items)
+    }
+}
+
 extension String {
     func md5() -> String {
         let data = Data(utf8)
