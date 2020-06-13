@@ -48,6 +48,10 @@ public class ResourceManager {
     }
     
     public func clearCache() {
+        slog("clear cache")
+        
+        DownloadManager.shared.cancelAllTasks()
+        
         try? FileManager.default.removeItem(at: tgsRawDirectory)
         try? FileManager.default.removeItem(at: tgsThumbDirectory)
         

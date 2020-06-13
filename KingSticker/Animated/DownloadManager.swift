@@ -81,8 +81,9 @@ public class DownloadManager {
                     if let destination = self?.taskDict[url] {
                         destination.notify(data: result)
                         self?.taskDict.removeValue(forKey: url)
-                        self?.semaphore.signal()
                     }
+                    
+                    self?.semaphore.signal()
                 }
             }
             
@@ -90,14 +91,13 @@ public class DownloadManager {
         }
         
         func run() {
-            semaphore.wait()
-
             // Check again whether downloaded
             if let data = ResourceManager.shared.cacheData(for: url) {
                 completion(data)
-                semaphore.signal()
                 return
             }
+            
+            semaphore.wait()
             
             if let task = taskDict[url] {
                 // Already exists
@@ -118,6 +118,7 @@ public class DownloadManager {
     
     /// Cancel all tasks
     func cancelAllTasks() {
+        slog("cancel all downloading tasks")
         syncQueue.sync {
             taskDict.forEach { (_, task) in
                 task.cancel()
@@ -134,6 +135,7 @@ public class DownloadManager {
     
     /// Dump active tasks
     func dump() {
+        slog("semaphore: \(self.semaphore)")
         for item in taskDict.keys {
             slog("downloading task: \(item)")
         }

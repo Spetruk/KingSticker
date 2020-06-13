@@ -2,8 +2,6 @@ import Foundation
 import Compression
 import RLottieBinding
 
-private let sharedQueue = DispatchQueue.global()
-
 final class AnimatedStickerFrame {
     let data: Data
     let type: AnimationRendererFrameType

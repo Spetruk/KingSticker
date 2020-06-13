@@ -10,6 +10,8 @@ import Foundation
 import RLottieBinding
 import Compression
 
+private let queue = DispatchQueue(label: "generate thumb")
+
 public func generateStickerCache(data: Data, size: CGSize, filePath: String) {
     let startTime = CACurrentMediaTime()
     var drawingTime: Double = 0
@@ -26,7 +28,7 @@ public func generateStickerCache(data: Data, size: CGSize, filePath: String) {
             
             var currentFrame: Int32 = 0
             
-            guard let file = ManagedFile(queue: DispatchQueue.global(), path: filePath, mode: .readwrite) else {
+            guard let file = ManagedFile(queue: queue, path: filePath, mode: .readwrite) else {
                 fatalError("open file failed")
             }
             
