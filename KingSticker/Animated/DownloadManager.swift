@@ -31,6 +31,35 @@ public class DownloadManager {
     
     private init() {
         semaphore = DispatchSemaphore(value: maxConcurrentTasks)
+        setupNotification()
+    }
+    
+    func setupNotification() {
+        NotificationCenter.default.addObserver(forName: UIApplication.willResignActiveNotification, object: nil, queue: .main) { [weak self] _ in
+            slog("Enter background and suspend all tasks")
+            self?.suspendAll()
+        }
+        
+        NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: .main) { [weak self] _ in
+            slog("Enter foreground and resume all tasks")
+            self?.resumeAll()
+        }
+    }
+    
+    private func suspendAll() {
+        syncQueue.sync {
+            for task in taskDict.values {
+                task.suspend()
+            }
+        }
+    }
+    
+    private func resumeAll() {
+        syncQueue.sync {
+            for task in taskDict.values {
+                task.resume()
+            }
+        }
     }
     
     /// Download file
@@ -136,6 +165,10 @@ class DownloadTask {
     
     func resume() {
         _task.resume()
+    }
+    
+    func suspend() {
+        _task.suspend()
     }
     
     func cancel() {

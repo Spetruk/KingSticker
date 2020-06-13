@@ -76,6 +76,7 @@ public class ResourceManager {
     public func generateThumb(for data: Data, size: CGSize, path: String, completion: @escaping () -> Void) {
         queue.async {
             generateStickerCache(data: data, size: size, filePath: path)
+            slog("finish generating a thumb for sticker")
             completion()
         }
     }
