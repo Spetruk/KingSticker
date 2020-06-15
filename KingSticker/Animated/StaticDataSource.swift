@@ -10,7 +10,7 @@ import Foundation
 
 /// Static image data source
 public class StaticDataSource: AnimatedDataSource {
-    var url: URL
+    public var url: URL
     
     public var frameCount: Int {
         return 1

@@ -32,7 +32,10 @@ public class AutoDataSource: AnimatedDataSource {
         _dataSource.ready(size: size, completion: completion)
     }
     
+    public let url: URL
+    
     public init(url: URL) {
+        self.url = url
         if url.path.hasSuffix("tgs") || url.path.hasSuffix("json") {
             self._dataSource = LottieDataSource(url: url)
         } else if url.path.hasSuffix("gif") {

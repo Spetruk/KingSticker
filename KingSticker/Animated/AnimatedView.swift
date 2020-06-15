@@ -9,6 +9,8 @@
 import UIKit
 
 public protocol AnimatedDataSource {
+    var url: URL { get }
+    
     var frameCount: Int { get }
     var frameRate: Int { get }
     var isReady: Bool { get }
@@ -35,6 +37,8 @@ public class AnimatedView: UIImageView {
     private var timeSinceLastFrameChange: TimeInterval = 0.0
     private var currentFrame: AnimatedFrame?
     private var showFirstFrame: Bool = false // only show first frame
+    
+    private var hasCachedFirstFrame = false
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -66,6 +70,7 @@ public class AnimatedView: UIImageView {
         self.currentFrame = nil
         self.timeSinceLastFrameChange = 0.0
         self.timer?.isPaused = true
+        self.hasCachedFirstFrame = false
     }
     
     @objc private func onTimer() {
@@ -80,9 +85,21 @@ public class AnimatedView: UIImageView {
         assertMainThread()
         guard let dataSource = self.dataSource else { return }
         
+        if self.image == nil {
+            self.image = MemoryCache.shared.value(for: dataSource.url)
+            if self.image != nil {
+                slog("hit")
+            }
+        }
+        
         if dataSource.isReady, let frame = dataSource.takeFrame() {
             self.currentFrame = frame
             self.image = frame.image
+            
+            if !hasCachedFirstFrame {
+                MemoryCache.shared.update(value: frame.image, for: dataSource.url)
+                hasCachedFirstFrame = true
+            }
         }
     }
     
@@ -91,6 +108,8 @@ public class AnimatedView: UIImageView {
         self.reset()
         self.dataSource = dataSource
         self.showFirstFrame = options.contains(.firstFrame)
+        
+        render()
         
         dataSource.ready(size: size) { [weak self] success in
             guard let strongSelf = self else { return }

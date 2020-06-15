@@ -12,7 +12,7 @@ public class GifDataSource: AnimatedDataSource {
     private var frames: [AnimatedFrame] = []
     private var currentIndex = 0
     private var preferredSize: CGSize = .zero
-    private let url: URL
+    public var url: URL
     private var showFirstFrame: Bool = false
     
 

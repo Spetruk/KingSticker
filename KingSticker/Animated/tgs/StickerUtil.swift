@@ -87,6 +87,7 @@ public func generateStickerCache(data: Data, size: CGSize, filePath: String) {
                 
                 let appendStartTime = CACurrentMediaTime()
                 
+                // use yuva can reduce file/memory size
                 encodeRGBAToYUVA(yuvaFrameData.assumingMemoryBound(to: UInt8.self), currentFrameData.assumingMemoryBound(to: UInt8.self), Int32(size.width), Int32(size.height), Int32(bytesPerRow))
                 
                 appendingTime += CACurrentMediaTime() - appendStartTime

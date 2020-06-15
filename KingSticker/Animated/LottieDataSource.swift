@@ -19,7 +19,7 @@ public final class LottieDataSource: AnimatedDataSource {
     public var height: Int = 0
     public var isReady: Bool
     
-    var url: URL
+    public var url: URL
     
     var dataComplete = true // not useful
     
