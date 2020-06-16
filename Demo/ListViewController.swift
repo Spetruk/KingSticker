@@ -32,7 +32,6 @@ class ListViewController: UIViewController {
         view.addSubview(collectionView)
         collectionView.frame = CGRect(origin: .zero, size: CGSize(width: view.bounds.width, height: view.bounds.height / 2))
         collectionView.backgroundColor = .white
-        ResourceManager.shared.clearCache()
         loadData()
     }
     

@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import KingSticker
 
-private let radius: CGFloat = 30
+private let radius: CGFloat = 24
+private let edge : CGFloat = 1
 
 final class FPSViewController: UIViewController {
     private let floatView = UIView()
@@ -77,8 +79,30 @@ class FPSWindow: UIWindow {
     }
     
     func setupViews() {
-        let gesture = UIPanGestureRecognizer(target: self, action: #selector(onDrag))
-        self.addGestureRecognizer(gesture)
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(onDrag))
+        self.addGestureRecognizer(pan)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(onTap))
+        self.addGestureRecognizer(tap)
+    }
+    
+    @objc func onTap(_ gestureRecognizer: UITapGestureRecognizer) {
+        print("tap")
+//        let alert = UIAlertController(title: "DebugPanel", message: nil, preferredStyle: .actionSheet)
+//        alert.addAction(UIAlertAction(title: "aaa", style: .cancel, handler: nil))
+//        if let vc = topMostViewController() {
+//            vc.present(alert, animated: true, completion: nil)
+//        }
+        
+        if let vc = topMostViewController() {
+            let alert = UIAlertController(title: "Tool", message: nil, preferredStyle: .actionSheet)
+            alert.addAction(UIAlertAction(title: "Clear Cache", style: .destructive, handler: { _ in
+                ResourceManager.shared.clearCache()
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            vc.present(alert, animated: true, completion: nil)
+        }
     }
     
     @objc func onDrag(_ gestureRecognizer: UIPanGestureRecognizer) {
@@ -106,28 +130,47 @@ class FPSWindow: UIWindow {
     
     func ensureSafeArea(for point: CGPoint) {
         let screenSize = UIScreen.main.bounds.size
+        var topPadding: CGFloat = 0
+        var bottomPadding: CGFloat = 0
+        
+        if #available(iOS 11.0, *) {
+            let window = UIApplication.shared.keyWindow!
+            topPadding = window.safeAreaInsets.top
+            bottomPadding = window.safeAreaInsets.bottom
+        }
         
         var x = point.x
         var y = point.y
         
-        // left
-        if x < radius {
-            x = radius
-        }
+        let top = topPadding + edge
+        let bottom = screenSize.height - bottomPadding - edge
         
-        // right
-        if x > screenSize.width - radius {
-            x = screenSize.width - radius
-        }
-        
-        // top
-        if y < radius {
-            y = radius + 44
-        }
-        
-        // bottom
-        if y > screenSize.height - radius {
-            y = screenSize.height - radius - 44
+        if y < top {
+            y = radius + top
+            
+            if x < radius + edge {
+                x = radius + edge
+            }
+            
+            if x > screenSize.width - radius - edge {
+                x = screenSize.width - radius - edge
+            }
+        } else if y < bottom {
+            if x < screenSize.width / 2 {
+                x = radius + edge
+            } else {
+                x = screenSize.width - radius - edge
+            }
+        } else {
+            y = bottom - radius
+            
+            if x < radius + edge {
+                x = radius + edge
+            }
+            
+            if x > screenSize.width - radius - edge {
+                x = screenSize.width - radius - edge
+            }
         }
         
         let newCenter = CGPoint(x: x, y: y)
@@ -156,4 +199,18 @@ class FPSWindow: UIWindow {
         window.layer.cornerRadius = radius
         window.layer.masksToBounds = true
     }
+}
+
+func topMostViewController() -> UIViewController? {
+    let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+    
+    if var topController = keyWindow?.rootViewController {
+        while let presentedViewController = topController.presentedViewController {
+            topController = presentedViewController
+        }
+        
+        return topController
+    }
+    
+    return nil
 }

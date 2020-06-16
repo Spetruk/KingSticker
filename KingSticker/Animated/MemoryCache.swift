@@ -40,4 +40,8 @@ class MemoryCache {
     func update(value: UIImage, for key: URL) {
         cache.setObject(value, forKey: key as NSURL)
     }
+    
+    func clear() {
+        cache.removeAllObjects()
+    }
 }
