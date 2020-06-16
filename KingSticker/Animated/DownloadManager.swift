@@ -31,6 +31,9 @@ private let syncQueue = DispatchQueue(label: "sync", qos: .utility)
 public class DownloadManager {
     static let shared = DownloadManager()
     
+    /// default max cache time is one week
+    public var maxCachedTime: TimeInterval = 3600 * 24 * 7
+    
     private let maxConcurrentTasks = 6
     private let semaphore: DispatchSemaphore
     

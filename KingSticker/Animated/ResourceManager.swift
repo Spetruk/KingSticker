@@ -84,8 +84,24 @@ public class ResourceManager {
     }
     
     public func hasDownloaded(for url: URL) -> Bool {
+        if url.isFileURL {
+            return true
+        }
+        
         let file = cachePath(for: url)
-        return FileManager.default.fileExists(atPath: file.path)
+        if FileManager.default.fileExists(atPath: file.path) {
+            let attributes = try? FileManager.default.attributesOfFileSystem(forPath: file.path)
+            if let date = attributes?[.creationDate] as? Date {
+                if date.timeIntervalSinceNow > DownloadManager.shared.maxCachedTime {
+                    slog("disk cache expired")
+                    try? FileManager.default.removeItem(at: file)
+                } else {
+                    return true
+                }
+            }
+        }
+        
+        return false
     }
     
     public func hasThumb(for url: URL, size: CGSize) -> Bool {
